@@ -23,13 +23,17 @@ public class Operacoes  {
 	}
 	
 	public List<Operacao> getExtrato(Conta conta){
-		List<Operacao> aux = FXCollections.observableArrayList(
+		List<Operacao> aux = 
 		listOperacoes
 		.stream()
 		.filter(e->e.getNumeroConta()==conta.getNumero())
-		.collect(Collectors.toList()));
+		.collect(Collectors.toList());
 		
 		return aux;
+	}
+	
+	public void add(Operacao o){
+		listOperacoes.add(o);	
 	}
 	
 	

@@ -20,32 +20,27 @@ import javafx.scene.Scene;
 
 public class TelaEstatisticas {
 	
-	private Conta conta;
 	private Stage mainStage;
 	private Scene cenaOperacoes;
 	private Scene cenaEstatisticas;
-	private List<Operacao> operacoes;
+	
+	private Operacoes operacoes;
+	private Contas contas;
+	
 	private GregorianCalendar calendario;
 	private int mes, ano;
 
 
-	public TelaEstatisticas(Conta conta, Stage mainStage, Scene cenaOperacoes, List<Operacao> operacoes) {
-		this.conta = conta;
+	public TelaEstatisticas(Stage mainStage, Scene cenaOperacoes) {
 		this.mainStage = mainStage;
 		this.cenaOperacoes = cenaOperacoes;
 		this.calendario = new GregorianCalendar();
-		this.operacoes = operacoes;
 		this.mes = calendario.get(GregorianCalendar.MONTH)+1;
 		this.ano = calendario.get(GregorianCalendar.YEAR);
-	}
-	
-	public double saldoNOdia(int conta,int mes,int ano) {
-		return(operacoes
-		.stream()
-		.filter(o->o.getNumeroConta() == conta)
-		.filter(o->o.getAno()<ano || o.getAno() == ano && o.getMes()<=mes)
-		.mapToDouble(o-> (o.getTipoOperacao()==0)? o.getValorOperacao():-1*o.getValorOperacao())
-		.sum());
+		
+		this.operacoes = Operacoes.getInstance();
+		this.contas = Contas.getInstance();
+		
 	}
 	
 	public Scene getScene() {
@@ -64,8 +59,8 @@ public class TelaEstatisticas {
 	
 
 		Label labelData = new Label("Estatisticas do mes " + mes + " de " + ano);
-		Label correntista =  new Label("Correntista: " + conta.getCorrentista());
-		Label labelSaldoMedio = new Label("Saldo medio: " + saldoMedio());
+		Label correntista =  new Label("Correntista: " + contas.getContaAtual().getCorrentista());
+		Label labelSaldoMedio = new Label("Saldo medio: " + "faze saldo medio nas operacoes");
 		
 		grid.add(correntista, 1, 1);
 		grid.add(labelData, 1, 2);
@@ -76,26 +71,4 @@ public class TelaEstatisticas {
 		cenaEstatisticas = new Scene(grid);
 		return cenaEstatisticas;
 	}
-	
-	public double saldoMedio() {
-		
-		double saldo = 0;
-		int count = 0;
-		
-		for(Operacao o : operacoes)
-			if(o.getMes() ==  5 && o.getAno()==ano) {
-				if(o.getTipoOperacao() == 0)
-					saldo += o.getValorOperacao();
-				else 
-					saldo -= o.getValorOperacao();
-				
-				count ++;
-			}
-		
-		if(count != 0)
-			return saldo/count;
-		
-		return count;
-	}
-
 }

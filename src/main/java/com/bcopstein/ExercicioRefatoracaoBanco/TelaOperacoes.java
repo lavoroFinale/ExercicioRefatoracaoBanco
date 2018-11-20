@@ -67,7 +67,9 @@ public class TelaOperacoes {
         Label tit = new Label("Ultimos movimentos");
         grid.add(tit,0,3);
         
-        ListView<Operacao> extrato = new ListView<>(operacoes.getExtrato());
+        ObservableList a = FXCollections.observableArrayList(operacoes.getExtrato(contas.getContaAtual()));
+        
+        ListView<Operacao> extrato = new ListView<>(a);
         extrato.setPrefHeight(140);
         grid.add(extrato, 0, 4);
 
@@ -120,7 +122,6 @@ public class TelaOperacoes {
         			  0);
               operacoes.add(op);        	  
         	  tfSaldo.setText(""+conta.getSaldo());
-        	  operacoesConta.add(op);
         	  cat.setText("Categoria " + conta.getStrStatus());
         	  lim.setText("Limite retirada diaria: "+conta.getLimRetiradaDiaria());
         	}catch(NumberFormatException ex) {
@@ -155,7 +156,6 @@ public class TelaOperacoes {
         	  // Esta adicionando em duas listas (resolver na camada de negocio)
               operacoes.add(op);        	  
         	  tfSaldo.setText(""+conta.getSaldo());
-        	  operacoesConta.add(op);
           	  tfSaldo.setText(""+conta.getSaldo());
           	  
           	  cat.setText("Categoria " + conta.getStrStatus());
@@ -172,7 +172,7 @@ public class TelaOperacoes {
         });
         
         btnEstatisticas.setOnAction(e -> {
-        	TelaEstatisticas tela = new TelaEstatisticas(conta,mainStage,cenaOperacoes,operacoes);
+        	TelaEstatisticas tela = new TelaEstatisticas(mainStage,cenaOperacoes);
         	mainStage.setScene(tela.getScene());
         });
 
