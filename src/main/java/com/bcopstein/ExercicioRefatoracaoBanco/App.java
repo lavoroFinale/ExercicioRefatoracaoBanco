@@ -30,8 +30,6 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
     	persistencia = Persistencia.getInstance();
-        contas = persistencia.loadContas();    	
-    	operacoes = persistencia.loadOperacoes();
     	
     	primaryStage.setTitle("$$ Banco NOSSA GRANA $$");
 
