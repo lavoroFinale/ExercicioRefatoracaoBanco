@@ -16,6 +16,16 @@ import java.util.Scanner;
 public class Persistencia {
     private final String NomeBDContas = "BDContasBNG.txt";
     private final String NomeBDOperacoes = "BDOperBNG.txt";
+    private static Persistencia instance;
+    
+    private Persistencia() {
+    }
+    
+    public static Persistencia getInstance() {
+    	if(instance==null)
+    		instance = new Persistencia();
+    	return instance;
+    }
     
     public Map<Integer,Conta> loadContas(){
     	Map<Integer,Conta> contas = new HashMap<>();
