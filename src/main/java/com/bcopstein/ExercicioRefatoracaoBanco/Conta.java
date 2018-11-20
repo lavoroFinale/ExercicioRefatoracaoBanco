@@ -63,37 +63,43 @@ public class Conta {
 	}
 	
 	public void deposito(double valor) {
+		double saldoAntigo = saldo;
+		
 		if (status == SILVER) {
 			saldo += valor;
-			if (saldo >= LIM_SILVER_GOLD) {
-				status = GOLD;
-			}
 		} else if (status == GOLD) {
 			saldo += valor * 1.01;
-			if (saldo >= LIM_GOLD_PLATINUM) {
-				status = PLATINUM;
-			}
 		} else if (status == PLATINUM) {
 			saldo += valor * 1.025;
 		}
+		
+		contaUpgrade();
 	}
-
+	
 	public void retirada(double valor) {
-		if (saldo - valor < 0.0) {
+		if (saldo - valor < 0.0)
 			return;
-		} else {
-			saldo = saldo - valor;
-			if (status == PLATINUM) {
-				if (saldo < LIM_PLATINUM_GOLD) {
-					status = GOLD;
-				}
-			} else if (status == GOLD) {
-				if (saldo < LIM_GOLD_SILVER) {
-					status = SILVER;
-				}
-			}
+	
+		saldo = saldo - valor;
+		contaUpgrade();
+	}
+	
+	private void contaUpgrade() {
+		if(status == PLATINUM && saldo < 100000) {
+			status = GOLD;
+		}
+		else if(status == GOLD) {
+			if(saldo < 25000)
+				status = SILVER;
+			else if(saldo >= 200000)
+				status = PLATINUM;
+		}
+		else if(status == SILVER && saldo >= 50000){
+			status = GOLD;
 		}
 	}
+
+	
 
 	@Override
 	public String toString() {

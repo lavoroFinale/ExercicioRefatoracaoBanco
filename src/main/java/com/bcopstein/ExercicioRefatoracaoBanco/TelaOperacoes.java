@@ -95,11 +95,13 @@ public class TelaOperacoes {
 
         Button btnCredito = new Button("Credito");
         Button btnDebito = new Button("Debito");
+        Button btnEstatisticas = new Button("Estatisticas");
         Button btnVoltar = new Button("Voltar");
         HBox hbBtn = new HBox(20);
         hbBtn.setAlignment(Pos.TOP_CENTER);
         hbBtn.getChildren().add(btnCredito);
         hbBtn.getChildren().add(btnDebito);
+        hbBtn.getChildren().add(btnEstatisticas);
         hbBtn.getChildren().add(btnVoltar);
         grid.add(hbBtn, 1, 2);
         
@@ -125,6 +127,8 @@ public class TelaOperacoes {
               operacoes.add(op);        	  
         	  tfSaldo.setText(""+conta.getSaldo());
         	  operacoesConta.add(op);
+        	  cat.setText("Categoria " + conta.getStrStatus());
+        	  lim.setText("Limite retirada diaria: "+conta.getLimRetiradaDiaria());
         	}catch(NumberFormatException ex) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Valor inválido !!");
@@ -159,6 +163,10 @@ public class TelaOperacoes {
         	  tfSaldo.setText(""+conta.getSaldo());
         	  operacoesConta.add(op);
           	  tfSaldo.setText(""+conta.getSaldo());
+          	  
+          	  cat.setText("Categoria " + conta.getStrStatus());
+          	  lim.setText("Limite retirada diaria: "+conta.getLimRetiradaDiaria());
+          	  
           	}catch(NumberFormatException ex) {
   				Alert alert = new Alert(AlertType.WARNING);
   				alert.setTitle("Valor inválido !!");
@@ -167,6 +175,11 @@ public class TelaOperacoes {
 
   				alert.showAndWait();
           	}        	
+        });
+        
+        btnEstatisticas.setOnAction(e -> {
+        	TelaEstatisticas tela = new TelaEstatisticas(conta,mainStage,cenaOperacoes,operacoes);
+        	mainStage.setScene(tela.getScene());
         });
 
         btnVoltar.setOnAction(e->{
