@@ -39,6 +39,15 @@ public class TelaEstatisticas {
 		this.ano = calendario.get(GregorianCalendar.YEAR);
 	}
 	
+	public double saldoNOdia(int conta,int mes,int ano) {
+		return(operacoes
+		.stream()
+		.filter(o->o.getNumeroConta() == conta)
+		.filter(o->o.getAno()<ano || o.getAno() == ano && o.getMes()<=mes)
+		.mapToDouble(o-> (o.getTipoOperacao()==0)? o.getValorOperacao():-1*o.getValorOperacao())
+		.sum());
+	}
+	
 	public Scene getScene() {
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);

@@ -7,19 +7,22 @@ public class Contas {
 	private Map<Integer,Conta> contas;
 	private Persistencia persistencia;
 	private static Contas instance;
+	private Conta contaAtual;
 	
 	private Contas(){
 		persistencia = Persistencia.getInstance();
 		contas = persistencia.loadContas();
 	}
 	
-	public Contas getInstance() {
+	public static Contas getInstance() {
 		if(instance == null)
 			instance = new Contas();
 		return instance;
 	}
 	
-	public Map<Integer,Conta> getContas() {
-		return contas;
-	}	
+	public Conta getContaAtual(){
+		return contaAtual;	
+	}
+	
+	
 }
