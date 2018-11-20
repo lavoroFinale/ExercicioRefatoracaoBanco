@@ -25,19 +25,20 @@ public class TelaOperacoes {
 	private Stage mainStage; 
 	private Scene cenaEntrada;
 	private Scene cenaOperacoes;
-	private List<Operacao> operacoes;
-	private ObservableList<Operacao> operacoesConta;
-
-	private Conta conta; 
-
+	
 	private TextField tfValorOperacao;
 	private TextField tfSaldo;
+	
+	private Contas contas;
+	private Operacoes operacoes;
+
+	
 
 	public TelaOperacoes(Stage mainStage, Scene telaEntrada) { // Tirar esse parâmetro																					// conta
 		this.mainStage = mainStage;
 		this.cenaEntrada = telaEntrada;
-		this.conta = conta;
-		this.operacoes = operacoes;
+		this.contas = Contas.getInstance();
+		this.operacoes = Operacoes.getInstance();
 	}
 
 	public Scene getTelaOperacoes() {
@@ -46,6 +47,8 @@ public class TelaOperacoes {
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
+        
+        Conta conta = contas.getContaAtual();
 
         String dadosCorr = conta.getNumero()+" : "+conta.getCorrentista();
         Text scenetitle = new Text(dadosCorr);
@@ -63,17 +66,8 @@ public class TelaOperacoes {
         
         Label tit = new Label("Ultimos movimentos");
         grid.add(tit,0,3);
-
-        // Seleciona apenas o extrato da conta atual
-        operacoesConta = 
-        		FXCollections.observableArrayList(
-        				operacoes
-        				.stream()
-        				.filter(op -> op.getNumeroConta() == this.conta.getNumero())
-        				.collect(Collectors.toList())
-        				);
         
-        ListView<Operacao> extrato = new ListView<>(operacoesConta);
+        ListView<Operacao> extrato = new ListView<>(operacoes.getExtrato());
         extrato.setPrefHeight(140);
         grid.add(extrato, 0, 4);
 

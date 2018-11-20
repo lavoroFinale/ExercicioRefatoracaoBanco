@@ -1,6 +1,9 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
 
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import javafx.collections.FXCollections;
 
 public class Contas {
 	
@@ -25,7 +28,10 @@ public class Contas {
 	}
 	
 	public Conta getConta(int nrm){
-		return contas.get(nrm);
+		Conta aux = contas.get(nrm);
+		contaAtual = aux;
+		
+		return aux;
 	}
 	
 }
