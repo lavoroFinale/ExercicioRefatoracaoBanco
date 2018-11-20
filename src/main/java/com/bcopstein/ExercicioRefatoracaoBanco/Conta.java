@@ -63,7 +63,6 @@ public class Conta {
 	}
 	
 	public void deposito(double valor) {
-		double saldoAntigo = saldo;
 		
 		if (status == SILVER) {
 			saldo += valor;
