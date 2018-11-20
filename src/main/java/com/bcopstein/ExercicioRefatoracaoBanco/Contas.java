@@ -24,5 +24,8 @@ public class Contas {
 		return contaAtual;	
 	}
 	
+	public Conta getConta(int nrm){
+		return contas.get(nrm);
+	}
 	
 }
