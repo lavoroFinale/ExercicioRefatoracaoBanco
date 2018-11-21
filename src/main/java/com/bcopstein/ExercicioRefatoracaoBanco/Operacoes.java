@@ -33,20 +33,14 @@ public class Operacoes  {
 		return aux;
 	}
 	
-	public void add(Double valor, Conta conta){
-		 GregorianCalendar date = new GregorianCalendar();
-		 Operacao op = new Operacao(
- 			  date.get(GregorianCalendar.DAY_OF_MONTH),
- 			  date.get(GregorianCalendar.MONTH+1),
- 			  date.get(GregorianCalendar.YEAR),
- 			  date.get(GregorianCalendar.HOUR),
- 			  date.get(GregorianCalendar.MINUTE),
- 			  date.get(GregorianCalendar.SECOND),
- 			  conta.getNumero(),
- 			  conta.getStatus(),
- 			  valor,
- 			  1);
-		listOperacoes.add(op);	
+	public void add(Operacao o){
+		listOperacoes.add(o);
+	}
+	
+	public List<Operacao> getOperacoes(Conta c){
+		return listOperacoes.stream()
+				.filter(e -> e.getNumeroConta() == c.getNumero())
+				.collect(Collectors.toList());
 	}
 	
 	

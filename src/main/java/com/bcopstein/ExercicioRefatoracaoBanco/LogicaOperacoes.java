@@ -1,6 +1,7 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
 
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class LogicaOperacoes {
 	
@@ -30,12 +31,38 @@ public class LogicaOperacoes {
 	
 	public void debito(double valor) throws NumberFormatException{
     	  contaAtual.debito(valor);
-    	  operacoes.add(valor,contaAtual);
+    	  GregorianCalendar date = new GregorianCalendar();
+ 		  Operacao op = new Operacao(
+  			  date.get(GregorianCalendar.DAY_OF_MONTH),
+  			  date.get(GregorianCalendar.MONTH)+1,
+  			  date.get(GregorianCalendar.YEAR),
+  			  date.get(GregorianCalendar.HOUR),
+  			  date.get(GregorianCalendar.MINUTE),
+  			  date.get(GregorianCalendar.SECOND),
+  			  contaAtual.getNumero(),
+  			  contaAtual.getStatus(),
+  			  valor,
+  			  1);
+ 		
+    	  operacoes.add(op);
 	}
 	
 	public void credito(double valor) throws NumberFormatException {
-    	  contaAtual.deposito(valor);
-          operacoes.add(valor, contaAtual); 
+		  contaAtual.deposito(valor);
+    	  GregorianCalendar date = new GregorianCalendar();
+ 		  Operacao op = new Operacao(
+  			  date.get(GregorianCalendar.DAY_OF_MONTH),
+  			  date.get(GregorianCalendar.MONTH)+1,
+  			  date.get(GregorianCalendar.YEAR),
+  			  date.get(GregorianCalendar.HOUR),
+  			  date.get(GregorianCalendar.MINUTE),
+  			  date.get(GregorianCalendar.SECOND),
+  			  contaAtual.getNumero(),
+  			  contaAtual.getStatus(),
+  			  valor,
+  			  0);
+ 		
+    	  operacoes.add(op);
 	}
 	
 	public void saveContas() {
@@ -44,6 +71,10 @@ public class LogicaOperacoes {
 	
 	public void saveOperacoes(){
 		
+	}
+	
+	public List<Operacao> getOperacoes(){
+		return operacoes.getOperacoes(contaAtual);
 	}
 
 }

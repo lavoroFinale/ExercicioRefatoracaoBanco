@@ -30,6 +30,8 @@ public class TelaOperacoes {
 	private TextField tfSaldo;
 	
 	private LogicaOperacoes logica;
+	
+	private ListView<Operacao> extrato;
 
 	
 
@@ -65,9 +67,8 @@ public class TelaOperacoes {
         Label tit = new Label("Ultimos movimentos");
         grid.add(tit,0,3);
         
-        ObservableList a = FXCollections.observableArrayList();
         
-        ListView<Operacao> extrato = new ListView<>(a);
+        extrato = new ListView<>(FXCollections.observableArrayList(logica.getOperacoes()));
         extrato.setPrefHeight(140);
         grid.add(extrato, 0, 4);
 
@@ -104,6 +105,7 @@ public class TelaOperacoes {
         	  double valor = Integer.parseInt(tfValorOperacao.getText());
         	  
         	  logica.credito(valor);
+        	  extrato.setItems(FXCollections.observableArrayList(logica.getOperacoes()));
         	  
         	  tfSaldo.setText(""+conta.getSaldo());
         	  cat.setText("Categoria " + conta.getStrStatus());
@@ -123,7 +125,8 @@ public class TelaOperacoes {
         	try {
           	  double valor = Integer.parseInt(tfValorOperacao.getText());
           	  
-              logica.credito(valor); 
+              logica.debito(valor); 
+              extrato.setItems(FXCollections.observableArrayList(logica.getOperacoes()));
               
         	  tfSaldo.setText(""+ conta.getSaldo());
           	  tfSaldo.setText(""+ conta.getSaldo());
