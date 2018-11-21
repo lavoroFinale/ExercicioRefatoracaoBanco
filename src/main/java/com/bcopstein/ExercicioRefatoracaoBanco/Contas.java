@@ -10,7 +10,6 @@ public class Contas {
 	private Map<Integer,Conta> contas;
 	private Persistencia persistencia;
 	private static Contas instance;
-	private Conta contaAtual;
 	
 	private Contas(){
 		persistencia = Persistencia.getInstance();
@@ -23,15 +22,13 @@ public class Contas {
 		return instance;
 	}
 	
-	public Conta getContaAtual(){
-		return contaAtual;	
-	}
-	
-	public Conta getConta(int nrm){
+	public Conta getConta(int nrm) {
 		Conta aux = contas.get(nrm);
-		contaAtual = aux;
 		
-		return aux;
+		if(aux == null)
+			throw new NumberFormatException("Conta invalida");
+	
+		return contas.get(nrm);
 	}
 	
 }

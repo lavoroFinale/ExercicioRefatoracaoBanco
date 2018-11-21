@@ -24,12 +24,12 @@ public class TelaEstatisticas {
 	private Scene cenaOperacoes;
 	private Scene cenaEstatisticas;
 	
-	private Operacoes operacoes;
-	private Contas contas;
+	private LogicaOperacoes logica;
 	
 	private GregorianCalendar calendario;
 	private int mes, ano;
-
+	
+	private Conta conta;
 
 	public TelaEstatisticas(Stage mainStage, Scene cenaOperacoes) {
 		this.mainStage = mainStage;
@@ -37,10 +37,8 @@ public class TelaEstatisticas {
 		this.calendario = new GregorianCalendar();
 		this.mes = calendario.get(GregorianCalendar.MONTH)+1;
 		this.ano = calendario.get(GregorianCalendar.YEAR);
-		
-		this.operacoes = Operacoes.getInstance();
-		this.contas = Contas.getInstance();
-		
+		this.logica = logica.getInstance();
+		this.conta = logica.getContaAtual();
 	}
 	
 	public Scene getScene() {
@@ -59,7 +57,7 @@ public class TelaEstatisticas {
 	
 
 		Label labelData = new Label("Estatisticas do mes " + mes + " de " + ano);
-		Label correntista =  new Label("Correntista: " + contas.getContaAtual().getCorrentista());
+		Label correntista =  new Label("Correntista: " + conta.getCorrentista());
 		Label labelSaldoMedio = new Label("Saldo medio: " + "faze saldo medio nas operacoes");
 		
 		grid.add(correntista, 1, 1);

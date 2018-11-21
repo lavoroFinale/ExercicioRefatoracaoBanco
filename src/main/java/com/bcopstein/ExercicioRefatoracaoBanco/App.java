@@ -21,19 +21,16 @@ import javafx.stage.Stage;
 
 
 public class App extends Application {
-	private Persistencia persistencia;
-	private Map<Integer,Conta> contas;
-	private List<Operacao> operacoes;
+	private static LogicaOperacoes logica;
 	
 	private TelaEntrada telaEntrada;
 	
     @Override
     public void start(Stage primaryStage) {
-    	persistencia = Persistencia.getInstance();
     	
     	primaryStage.setTitle("$$ Banco NOSSA GRANA $$");
 
-    	telaEntrada = new TelaEntrada(primaryStage); // << Substituir por singleton
+    	telaEntrada = new TelaEntrada(primaryStage); 
 
         primaryStage.setScene(telaEntrada.getTelaEntrada());
         primaryStage.show();
@@ -41,12 +38,13 @@ public class App extends Application {
     
     @Override
     public void stop() {
-        persistencia.saveContas(contas.values());
-        persistencia.saveOperacoes(operacoes);
+        logica.saveContas();
+        logica.saveOperacoes();
     }
     
     public static void main(String[] args) {
         launch(args);
+        logica = LogicaOperacoes.getInstance();
     }
 }
 

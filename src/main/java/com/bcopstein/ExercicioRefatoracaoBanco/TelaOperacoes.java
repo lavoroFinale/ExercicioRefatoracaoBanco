@@ -29,16 +29,14 @@ public class TelaOperacoes {
 	private TextField tfValorOperacao;
 	private TextField tfSaldo;
 	
-	private Contas contas;
-	private Operacoes operacoes;
+	private LogicaOperacoes logica;
 
 	
 
 	public TelaOperacoes(Stage mainStage, Scene telaEntrada) { // Tirar esse parâmetro																					// conta
 		this.mainStage = mainStage;
 		this.cenaEntrada = telaEntrada;
-		this.contas = Contas.getInstance();
-		this.operacoes = Operacoes.getInstance();
+		this.logica = logica.getInstance();
 	}
 
 	public Scene getTelaOperacoes() {
@@ -48,9 +46,9 @@ public class TelaOperacoes {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
         
-        Conta conta = contas.getContaAtual();
+        Conta conta = logica.getContaAtual();
 
-        String dadosCorr = conta.getNumero()+" : "+conta.getCorrentista();
+        String dadosCorr = conta.getNumero() + " : " + conta.getCorrentista();
         Text scenetitle = new Text(dadosCorr);
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(scenetitle, 0, 0, 2, 1);
@@ -67,7 +65,7 @@ public class TelaOperacoes {
         Label tit = new Label("Ultimos movimentos");
         grid.add(tit,0,3);
         
-        ObservableList a = FXCollections.observableArrayList(operacoes.getExtrato(contas.getContaAtual()));
+        ObservableList a = FXCollections.observableArrayList();
         
         ListView<Operacao> extrato = new ListView<>(a);
         extrato.setPrefHeight(140);
@@ -104,26 +102,13 @@ public class TelaOperacoes {
         btnCredito.setOnAction(e->{
         	try {
         	  double valor = Integer.parseInt(tfValorOperacao.getText());
-        	  if (valor < 0.0) {
-        		  throw new NumberFormatException("Valor invalido");
-        	  }
-        	  conta.deposito(valor);
-        	  GregorianCalendar date = new GregorianCalendar();
-        	  Operacao op = new Operacao(
-        			  date.get(GregorianCalendar.DAY_OF_MONTH),
-        			  date.get(GregorianCalendar.MONTH+1),
-        			  date.get(GregorianCalendar.YEAR),
-        			  date.get(GregorianCalendar.HOUR),
-        			  date.get(GregorianCalendar.MINUTE),
-        			  date.get(GregorianCalendar.SECOND),
-        			  conta.getNumero(),
-        			  conta.getStatus(),
-        			  valor,
-        			  0);
-              operacoes.add(op);        	  
+        	  
+        	  logica.credito(valor);
+        	  
         	  tfSaldo.setText(""+conta.getSaldo());
         	  cat.setText("Categoria " + conta.getStrStatus());
         	  lim.setText("Limite retirada diaria: "+conta.getLimRetiradaDiaria());
+        	  
         	}catch(NumberFormatException ex) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Valor inválido !!");
@@ -137,26 +122,11 @@ public class TelaOperacoes {
         btnDebito.setOnAction(e->{
         	try {
           	  double valor = Integer.parseInt(tfValorOperacao.getText());
-          	  if (valor < 0.0 || valor > conta.getSaldo()) {
-          		  throw new NumberFormatException("Saldo insuficiente");
-          	  }
-          	  conta.retirada(valor);
-        	  GregorianCalendar date = new GregorianCalendar();
-        	  Operacao op = new Operacao(
-        			  date.get(GregorianCalendar.DAY_OF_MONTH),
-        			  date.get(GregorianCalendar.MONTH+1),
-        			  date.get(GregorianCalendar.YEAR),
-        			  date.get(GregorianCalendar.HOUR),
-        			  date.get(GregorianCalendar.MINUTE),
-        			  date.get(GregorianCalendar.SECOND),
-        			  conta.getNumero(),
-        			  conta.getStatus(),
-        			  valor,
-        			  1);
-        	  // Esta adicionando em duas listas (resolver na camada de negocio)
-              operacoes.add(op);        	  
-        	  tfSaldo.setText(""+conta.getSaldo());
-          	  tfSaldo.setText(""+conta.getSaldo());
+          	  
+              logica.credito(valor); 
+              
+        	  tfSaldo.setText(""+ conta.getSaldo());
+          	  tfSaldo.setText(""+ conta.getSaldo());
           	  
           	  cat.setText("Categoria " + conta.getStrStatus());
           	  lim.setText("Limite retirada diaria: "+conta.getLimRetiradaDiaria());

@@ -63,6 +63,8 @@ public class Conta {
 	}
 	
 	public void deposito(double valor) {
+		if (valor < 0.0)
+  		  throw new NumberFormatException("Valor invalido");
 		
 		if (status == SILVER) {
 			saldo += valor;
@@ -75,10 +77,10 @@ public class Conta {
 		contaUpgrade();
 	}
 	
-	public void retirada(double valor) {
-		if (saldo - valor < 0.0)
-			return;
-	
+	public void debito(double valor) {
+		if (valor < 0.0 || valor > getSaldo())
+  		  throw new NumberFormatException("Saldo insuficiente");
+  	  
 		saldo = saldo - valor;
 		contaUpgrade();
 	}
