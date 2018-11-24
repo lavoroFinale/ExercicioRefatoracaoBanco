@@ -108,7 +108,7 @@ public class TelaOperacoes {
         	  extrato.setItems(FXCollections.observableArrayList(logica.getOperacoes()));
         	  
         	  tfSaldo.setText(""+conta.getSaldo());
-        	  cat.setText("Categoria " + conta.getStrStatus());
+        	  cat.setText("Categoria: " + conta.getStrStatus());
         	  lim.setText("Limite retirada diaria: "+conta.getLimRetiradaDiaria());
         	  
         	}catch(NumberFormatException ex) {
