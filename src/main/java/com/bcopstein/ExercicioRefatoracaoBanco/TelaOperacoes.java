@@ -131,7 +131,7 @@ public class TelaOperacoes {
         	  tfSaldo.setText(""+ conta.getSaldo());
           	  tfSaldo.setText(""+ conta.getSaldo());
           	  
-          	  cat.setText("Categoria " + conta.getStrStatus());
+          	  cat.setText("Categoria: " + conta.getStrStatus());
           	  lim.setText("Limite retirada diaria: "+conta.getLimRetiradaDiaria());
           	  
           	}catch(NumberFormatException ex) {

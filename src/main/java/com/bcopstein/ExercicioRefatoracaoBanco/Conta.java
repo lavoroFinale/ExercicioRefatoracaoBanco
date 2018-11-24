@@ -9,6 +9,7 @@ public class Conta {
 	private String correntista;
 	private double saldo;
 	private StateConta state;
+	private FactoryState factory;
 
 	public Conta(int umNumero, String umNome) {
 		numero = umNumero;
@@ -21,11 +22,7 @@ public class Conta {
 		numero = umNumero;
 		correntista = umNome;
 		saldo = umSaldo;
-		switch(status) {
-			case 0: setState(new ContaSilver());
-			case 1: setState(new ContaGold());
-			case 2: setState(new ContaPlatinum());
-		}
+		setState(factory.createInstance(status));
 	}
 	
 	private void setState(final StateConta state){
