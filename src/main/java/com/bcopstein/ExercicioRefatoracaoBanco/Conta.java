@@ -9,7 +9,6 @@ public class Conta {
 	private String correntista;
 	private double saldo;
 	private StateConta state;
-	private FactoryState factory;
 
 	public Conta(int umNumero, String umNome) {
 		numero = umNumero;
@@ -22,7 +21,7 @@ public class Conta {
 		numero = umNumero;
 		correntista = umNome;
 		saldo = umSaldo;
-		setState(factory.createInstance(status));
+		setState(FactoryState.createInstance(status));
 	}
 	
 	private void setState(final StateConta state){

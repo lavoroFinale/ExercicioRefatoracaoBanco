@@ -1,9 +1,7 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
 
 import java.util.Map;
-import java.util.stream.Collectors;
 
-import javafx.collections.FXCollections;
 
 public class Contas {
 	
