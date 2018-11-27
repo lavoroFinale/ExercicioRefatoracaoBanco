@@ -76,5 +76,26 @@ public class LogicaOperacoes {
 	public List<Operacao> getOperacoes(){
 		return operacoes.getOperacoes(contaAtual);
 	}
+	
+	public int getTotalDeDebitos() {
+		return operacoes.getTotalDebito(contaAtual);
+	}
+	
+	public int getTotalDeCredito() {
+		return operacoes.getTotalCredito(contaAtual);
+	}
+	
+	public double getSaldo() {
+		return contaAtual.getSaldo();
+	}
+	
+	public String getExtrato() {
+		List<Operacao> aux = operacoes.getExtrato(contaAtual);
+		String s = "";
+		for(int i = 0;i<aux.size();i++) {
+			s+=aux.get(i).toString()+"\n";
+		}
+		return s;
+	}
 
 }

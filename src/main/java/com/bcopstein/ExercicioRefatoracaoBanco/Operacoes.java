@@ -43,6 +43,18 @@ public class Operacoes  {
 				.collect(Collectors.toList());
 	}
 	
+	public int getTotalCredito(Conta c) {
+		return getOperacoes(c).stream()
+				.filter(e -> e.getTipoOperacao() == 0)
+				.collect(Collectors.toList()).size();
+	}
+	
+	public int getTotalDebito(Conta c) {
+		return getOperacoes(c).stream()
+				.filter(e -> e.getTipoOperacao() == 1)
+				.collect(Collectors.toList()).size();
+	}
+	
 	
 	
 	
