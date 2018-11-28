@@ -23,15 +23,6 @@ public class Operacoes  {
 		return instance;
 	}
 	
-	public List<Operacao> getExtrato(Conta conta){
-		List<Operacao> aux = 
-		listOperacoes
-		.stream()
-		.filter(e->e.getNumeroConta()==conta.getNumero())
-		.collect(Collectors.toList());
-		
-		return aux;
-	}
 	
 	public void add(Operacao o){
 		listOperacoes.add(o);
@@ -55,9 +46,26 @@ public class Operacoes  {
 				.collect(Collectors.toList()).size();
 	}
 	
+	public  List<Operacao> getOperacoesMesAno(Conta c, int mes, int ano){
+		return getOperacoes(c).stream()
+				.filter(e -> (e.getAno() == ano) && (e.getMes() == mes))
+				.collect(Collectors.toList());
+	}
 	
+	public  double getTotalValorateData(Conta c, int mes, int ano){
+		 List<Operacao> listaOp = getOperacoes(c).stream()
+				.filter(e -> (e.getAno() <= ano) && (e.getMes() < mes))
+				.collect(Collectors.toList());
+		 double aux = 0;
+		 for(int i = 0; i<listaOp.size();i++) {
+				if(listaOp.get(i).getTipoOperacao() == 0)
+					aux += listaOp.get(i).getValorOperacao();
+				else
+					aux -= listaOp.get(i).getValorOperacao();
+			}
+		 return aux;
+		 }
+		 
+		 
+	}
 	
-	
-	
-	
-}

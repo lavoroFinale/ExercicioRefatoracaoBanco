@@ -32,7 +32,7 @@ public class LogicaOperacoes {
 	public void debito(double valor) throws NumberFormatException{
     	  contaAtual.debito(valor);
     	  GregorianCalendar date = new GregorianCalendar();
- 		  Operacao op = new Operacao(
+ 		  Operacao op = FactoryOperacoes.getInstance(
   			  date.get(GregorianCalendar.DAY_OF_MONTH),
   			  date.get(GregorianCalendar.MONTH)+1,
   			  date.get(GregorianCalendar.YEAR),
@@ -50,7 +50,7 @@ public class LogicaOperacoes {
 	public void credito(double valor) throws NumberFormatException {
 		  contaAtual.deposito(valor);
     	  GregorianCalendar date = new GregorianCalendar();
- 		  Operacao op = new Operacao(
+ 		  Operacao op = FactoryOperacoes.getInstance(
   			  date.get(GregorianCalendar.DAY_OF_MONTH),
   			  date.get(GregorianCalendar.MONTH)+1,
   			  date.get(GregorianCalendar.YEAR),
@@ -73,6 +73,19 @@ public class LogicaOperacoes {
 		
 	}
 	
+	public double getSaldoMedio(int mes, int ano) {
+		List<Operacao> listaOp = operacoes.getOperacoesMesAno(contaAtual, mes, ano);
+		double aux = 0;
+		for(int i = 0; i<listaOp.size();i++) {
+			if(listaOp.get(i).getTipoOperacao() == 0)
+				aux += listaOp.get(i).getValorOperacao();
+			else
+				aux -= listaOp.get(i).getValorOperacao();
+		}
+		aux += operacoes.getTotalValorateData(contaAtual, mes, ano);
+		return aux/30.;
+	}
+	
 	public List<Operacao> getOperacoes(){
 		return operacoes.getOperacoes(contaAtual);
 	}
@@ -89,13 +102,4 @@ public class LogicaOperacoes {
 		return contaAtual.getSaldo();
 	}
 	
-	public String getExtrato() {
-		List<Operacao> aux = operacoes.getExtrato(contaAtual);
-		String s = "";
-		for(int i = 0;i<aux.size();i++) {
-			s+=aux.get(i).toString()+"\n";
-		}
-		return s;
-	}
-
 }

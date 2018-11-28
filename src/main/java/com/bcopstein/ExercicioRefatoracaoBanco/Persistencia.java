@@ -116,7 +116,7 @@ public class Persistencia {
                valor = Double.parseDouble(sc.next());
                tipo = Integer.parseInt(sc.next());
                
-               Operacao op = new Operacao(
+               Operacao op =  FactoryOperacoes.getInstance(
             		   dia, mes, ano,
             		   hora, minuto, segundo,
 	                   numero, status,
