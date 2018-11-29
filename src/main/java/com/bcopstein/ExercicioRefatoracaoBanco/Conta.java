@@ -23,55 +23,62 @@ public class Conta {
 		this.update();
 	}
 	
+	//@ requires state != null;
 	private void setState(final StateConta state){
 		this.state = state;
 	}
-	
-	public double getSaldo() {
+	//@ ensures \result >= 0;
+	public/*@ pure */ double getSaldo() {
 		return saldo;
 	}
-
-	public Integer getNumero() {
+	//@ ensures \result >= 0;
+	public /*@ pure */  Integer getNumero() {
 		return numero;
 	}
 	
-	public String getCorrentista() {
+	//@ ensures !\result.equals(" ")
+	public /*@ pure */  String getCorrentista() {
 		return correntista;
 	}
 	
-	public StateConta getStatus() {
+	// @ ensures \result != null;
+	public /*@ pure */  StateConta getStatus() {
 		return state.status();
 	}
 	
-	public double getLimRetiradaDiaria() {
+	//@ ensures \result != null;
+	public /*@ pure */ double getLimRetiradaDiaria() {
 		return state.getLimite();
 	}
 	
+	//@ requires valor > 0;
+	//@ ensures getSaldo() == \old(getSaldo()) + state.credito(valor);
 	public double deposito(double valor) {
 		double aux = state.credito(valor);
 		saldo += aux;
 		update();
 		return aux;
 	}
-
+	//@ requires valor > 0;
+	//@ ensures getSaldo() == \old(getSaldo()) - valor;
 	public void debito(double valor) {
 		if (valor <= 0.0 || valor > saldo)
 	  		  throw new NumberFormatException("Valor invalido");
 		saldo -= valor;
 		update();
 	}
-	
+	//@ ensures state == \old(state).upgrade(getSaldo());
 	private void update() {
 		setState(state.upgrade(saldo));
 	}
 
 	@Override
-	public String toString() {
+	public /*@ pure */ String toString() {
 		return "Conta [numero=" + numero + ", correntista=" + correntista + ", saldo=" + saldo + ", status=" + state.status()
 				+ "]";
 	}
 
-	public String getStrStatus() {
+	public /*@ pure */  String getStrStatus() {
 		return state.toString();
 	}
 }

@@ -1,8 +1,18 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
 
 public interface StateConta {
-	public double credito(double valor);
-	public StateConta upgrade(double saldo);
-	public StateConta status();
-	public double getLimite();
+	
+	//@ requires valor > 0;
+	//@ ensures \result > 0;
+	public /*@ pure */ double credito(double valor);
+	
+	//@ requires saldo >= 0;
+	//@ ensures \result != null;
+	public /*@ pure */ StateConta upgrade(double saldo);
+	
+	//@ ensures \result != null; 
+	public /*@ pure */ StateConta status();
+	
+	//@ ensures \result > 0;
+	public /*@ pure */ double getLimite();
 }
