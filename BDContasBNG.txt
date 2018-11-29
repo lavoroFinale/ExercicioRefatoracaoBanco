@@ -1,1 +1,1 @@
-130;Aloisio Dexter;0.000000;Silver;100;Luis Antonio Feliz;575386.000000;Platinum;150;Maria Rita Polida;0.000000;Silver;200;Sara Tkinski;0.000000;Silver;300;Carlos Alberto Tristao;0.000000;Silver;
+130;Aloisio Dexter;0.000000;Silver;100;Luis Antonio Feliz;279961.000000;Platinum;150;Maria Rita Polida;0.000000;Silver;200;Sara Tkinski;0.000000;Silver;300;Carlos Alberto Tristao;0.000000;Silver;

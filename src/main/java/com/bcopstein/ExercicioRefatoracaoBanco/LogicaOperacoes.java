@@ -44,8 +44,8 @@ public class LogicaOperacoes {
 	}
 	
 	public void credito(double valor) throws NumberFormatException {
-		  contaAtual.deposito(valor);
- 		  Operacao op = FactoryOperacoes.getInstance( contaAtual.getNumero(), contaAtual.getStatus() ,valor,0);
+		  double aux = contaAtual.deposito(valor);
+ 		  Operacao op = FactoryOperacoes.getInstance( contaAtual.getNumero(), contaAtual.getStatus() ,aux,0);
  		
     	  operacoes.add(op);
 	}

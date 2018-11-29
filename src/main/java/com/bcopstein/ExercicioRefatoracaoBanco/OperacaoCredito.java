@@ -29,8 +29,8 @@ public class OperacaoCredito implements Operacao{
 	    
 		public OperacaoCredito(int numeroConta,StateConta statusConta, double valorOperacao) {
 			GregorianCalendar date = new GregorianCalendar();
-			this.dia =date.get(GregorianCalendar.DAY_OF_MONTH);
-			this.mes =date.get(GregorianCalendar.MONTH)+1;
+			this.dia = date.get(GregorianCalendar.DAY_OF_MONTH);
+			this.mes = date.get(GregorianCalendar.MONTH)+1;
 			this.ano = date.get(GregorianCalendar.YEAR);
 			this.hora = date.get(GregorianCalendar.HOUR);
 			this.minuto = date.get(GregorianCalendar.MINUTE);

@@ -1,9 +1,5 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
 public class Conta {
-	public final int LIM_SILVER_GOLD = 50000;
-	public final int LIM_GOLD_PLATINUM = 200000;
-	public final int LIM_PLATINUM_GOLD = 100000;
-	public final int LIM_GOLD_SILVER = 25000;
 
 	private String correntista;
 	private int numero;
@@ -51,9 +47,11 @@ public class Conta {
 		return state.getLimite();
 	}
 	
-	public void deposito(double valor) {
-		saldo = state.credito(valor, saldo);
+	public double deposito(double valor) {
+		double aux = state.credito(valor);
+		saldo += aux;
 		update();
+		return aux;
 	}
 
 	public void debito(double valor) {

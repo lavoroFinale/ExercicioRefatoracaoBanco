@@ -8,10 +8,10 @@ public class ContaSilver implements StateConta {
 	}
 
 	@Override
-	public double credito(double valor, double saldo) {
+	public double credito(double valor) {
 		if (valor < 0.0)
 	  		  throw new NumberFormatException("Valor invalido");
-		return saldo + valor;
+		return valor;
 	}
 	
 	public StateConta upgrade(double saldo) {

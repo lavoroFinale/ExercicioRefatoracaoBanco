@@ -5,10 +5,10 @@ public class ContaGold implements StateConta{
 	private final double limite = 100000.0;
 	
 	@Override
-	public double credito(double valor, double saldo) {
+	public double credito(double valor) {
 		if (valor < 0.0)
 	  		  throw new NumberFormatException("Valor invalido");
-		return saldo + valor * 1.01;
+		return  valor * 1.01;
 	}
 	
 	public StateConta upgrade(double saldo) {
