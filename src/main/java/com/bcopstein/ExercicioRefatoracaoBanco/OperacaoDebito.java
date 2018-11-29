@@ -1,5 +1,7 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
 
+import java.util.GregorianCalendar;
+
 public class OperacaoDebito implements Operacao{
     
 	private int dia;
@@ -9,19 +11,34 @@ public class OperacaoDebito implements Operacao{
     private int minuto;
     private int segundo;
     private int numeroConta;
-    private int statusConta;
+    private StateConta statusConta;
     private double valorOperacao;
     
-	public OperacaoDebito(int dia, int mes, int ano, int hora, int minuto, int segundo, int numeroConta, int statusConta, double valorOperacao) {
-		super();
-		this.dia = dia;
+    public OperacaoDebito(int dia, int mes, int ano, int hora, int minuto, int segundo, int numeroConta, StateConta statusConta, double valorOperacao) {
+    	this.dia = dia;
 		this.mes = mes;
 		this.ano = ano;
 		this.hora = hora;
 		this.minuto = minuto;
-		this.segundo = segundo;
+		this.segundo = 	segundo;
+		
 		this.numeroConta = numeroConta;
 		this.statusConta = statusConta;
+		this.valorOperacao = valorOperacao;
+    }
+    
+	public OperacaoDebito(int numero,StateConta statusConta, double valorOperacao) {
+		GregorianCalendar date = new GregorianCalendar();
+		this.dia =date.get(GregorianCalendar.DAY_OF_MONTH);
+		this.mes =date.get(GregorianCalendar.MONTH)+1;
+		this.ano = date.get(GregorianCalendar.YEAR);
+		this.hora = date.get(GregorianCalendar.HOUR);
+		this.minuto = date.get(GregorianCalendar.MINUTE);
+		this.segundo = 	date.get(GregorianCalendar.SECOND);
+		
+		this.numeroConta = numero;
+		this.statusConta = statusConta;
+		this.valorOperacao = valorOperacao;
 	}
 
 	public int getDia() {
@@ -52,7 +69,7 @@ public class OperacaoDebito implements Operacao{
 		return numeroConta;
 	}
 
-	public int getStatusConta() {
+	public StateConta getStatusConta() {
 		return statusConta;
 	}
 
@@ -60,8 +77,8 @@ public class OperacaoDebito implements Operacao{
 		return valorOperacao;
 	}
 
-	public int getTipoOperacao() {
-		return 1;
+	public Operacao getTipoOperacao() {
+		return this;
 	}
     
 	@Override
@@ -73,5 +90,10 @@ public class OperacaoDebito implements Operacao{
 				      "<D>"+" "+
 	                  valorOperacao;
 		return(line);
+	}
+
+	@Override
+	public int getIntTipo() {
+		return 1;
 	}
 }

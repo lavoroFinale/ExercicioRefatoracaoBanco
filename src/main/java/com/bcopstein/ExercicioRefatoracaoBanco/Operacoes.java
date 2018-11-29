@@ -1,5 +1,6 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
 
+import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,18 +35,6 @@ public class Operacoes  {
 				.collect(Collectors.toList());
 	}
 	
-	public int getTotalCredito(Conta c) {
-		return getOperacoes(c).stream()
-				.filter(e -> e.getTipoOperacao() == 0)
-				.collect(Collectors.toList()).size();
-	}
-	
-	public int getTotalDebito(Conta c) {
-		return getOperacoes(c).stream()
-				.filter(e -> e.getTipoOperacao() == 1)
-				.collect(Collectors.toList()).size();
-	}
-	
 	public  List<Operacao> getOperacoesMesAno(Conta c, int mes, int ano){
 		return getOperacoes(c).stream()
 				.filter(e -> (e.getAno() == ano) && (e.getMes() == mes))
@@ -58,14 +47,16 @@ public class Operacoes  {
 				.collect(Collectors.toList());
 		 double aux = 0;
 		 for(int i = 0; i<listaOp.size();i++) {
-				if(listaOp.get(i).getTipoOperacao() == 0)
+				if(listaOp.get(i).getTipoOperacao() instanceof OperacaoCredito)
 					aux += listaOp.get(i).getValorOperacao();
 				else
 					aux -= listaOp.get(i).getValorOperacao();
 			}
 		 return aux;
 		 }
-		 
-		 
+
+	public Collection<Operacao> getListOperacoes() {
+		return listOperacoes;
 	}
+}
 	

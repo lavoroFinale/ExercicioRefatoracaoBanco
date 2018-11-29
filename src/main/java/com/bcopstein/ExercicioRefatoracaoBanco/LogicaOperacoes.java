@@ -2,6 +2,7 @@ package com.bcopstein.ExercicioRefatoracaoBanco;
 
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class LogicaOperacoes {
 	
@@ -9,10 +10,14 @@ public class LogicaOperacoes {
 	private Operacoes operacoes;
 	private Contas contas;
 	private static LogicaOperacoes instance;
+	private Persistencia persistencia;
+	private ValidacaoLimite validacaoLimite;
 	
 	private LogicaOperacoes(){
 		this.operacoes = Operacoes.getInstance();
 		this.contas = Contas.getInstance();
+		this.persistencia = Persistencia.getInstance();
+		this.validacaoLimite = ValidacaoLimite.getInstance();
 	}
 	
 	public static LogicaOperacoes getInstance() {
@@ -30,72 +35,74 @@ public class LogicaOperacoes {
 	}
 	
 	public void debito(double valor) throws NumberFormatException{
-    	  contaAtual.debito(valor);
-    	  GregorianCalendar date = new GregorianCalendar();
- 		  Operacao op = FactoryOperacoes.getInstance(
-  			  date.get(GregorianCalendar.DAY_OF_MONTH),
-  			  date.get(GregorianCalendar.MONTH)+1,
-  			  date.get(GregorianCalendar.YEAR),
-  			  date.get(GregorianCalendar.HOUR),
-  			  date.get(GregorianCalendar.MINUTE),
-  			  date.get(GregorianCalendar.SECOND),
-  			  contaAtual.getNumero(),
-  			  contaAtual.getStatus(),
-  			  valor,
-  			  1);
- 		
-    	  operacoes.add(op);
+		if(validacaoLimite.valida(contaAtual, valor)) {
+		  contaAtual.debito(valor);	
+		  Operacao op = FactoryOperacoes.getInstance( contaAtual.getNumero(), contaAtual.getStatus() ,valor,1);
+			
+	  	  operacoes.add(op);
+  	  }
 	}
 	
 	public void credito(double valor) throws NumberFormatException {
 		  contaAtual.deposito(valor);
-    	  GregorianCalendar date = new GregorianCalendar();
- 		  Operacao op = FactoryOperacoes.getInstance(
-  			  date.get(GregorianCalendar.DAY_OF_MONTH),
-  			  date.get(GregorianCalendar.MONTH)+1,
-  			  date.get(GregorianCalendar.YEAR),
-  			  date.get(GregorianCalendar.HOUR),
-  			  date.get(GregorianCalendar.MINUTE),
-  			  date.get(GregorianCalendar.SECOND),
-  			  contaAtual.getNumero(),
-  			  contaAtual.getStatus(),
-  			  valor,
-  			  0);
+ 		  Operacao op = FactoryOperacoes.getInstance( contaAtual.getNumero(), contaAtual.getStatus() ,valor,0);
  		
     	  operacoes.add(op);
 	}
 	
 	public void saveContas() {
-		
+		persistencia.saveContas(contas.getListContas());
+	}
+	
+	public void oi() {
+		System.out.println("oi");
 	}
 	
 	public void saveOperacoes(){
-		
+		persistencia.saveOperacoes(operacoes.getListOperacoes());
 	}
 	
 	public double getSaldoMedio(int mes, int ano) {
 		List<Operacao> listaOp = operacoes.getOperacoesMesAno(contaAtual, mes, ano);
 		double aux = 0;
 		for(int i = 0; i<listaOp.size();i++) {
-			if(listaOp.get(i).getTipoOperacao() == 0)
+			if(listaOp.get(i).getTipoOperacao() instanceof OperacaoCredito)
 				aux += listaOp.get(i).getValorOperacao();
 			else
 				aux -= listaOp.get(i).getValorOperacao();
 		}
 		aux += operacoes.getTotalValorateData(contaAtual, mes, ano);
-		return aux/30.;
+		return aux/30;
 	}
 	
-	public List<Operacao> getOperacoes(){
-		return operacoes.getOperacoes(contaAtual);
+	
+	
+	public List<String> getOperacoes(){
+		return  operacoes.getOperacoes(contaAtual)
+				.stream()
+				.map(e -> e.toString())
+				.collect(Collectors.toList());
+		
 	}
 	
-	public int getTotalDeDebitos() {
-		return operacoes.getTotalDebito(contaAtual);
+	public double getTotalDeDebitosMes(int mes, int ano) {
+		return operacoes
+				.getOperacoes(contaAtual)
+				.stream()
+				.filter(e -> e.getMes() == mes && e.getAno() == ano)
+				.filter(e -> e.getTipoOperacao() instanceof OperacaoDebito)
+				.mapToDouble(e -> e.getValorOperacao())
+				.sum();
 	}
 	
-	public int getTotalDeCredito() {
-		return operacoes.getTotalCredito(contaAtual);
+	public double getTotalDeCreditoMes(int mes, int ano) {
+		return operacoes
+				.getOperacoes(contaAtual)
+				.stream()
+				.filter(e -> e.getMes() == mes && e.getAno() == ano)
+				.filter(e -> e.getTipoOperacao() instanceof OperacaoCredito)
+				.mapToDouble(e -> e.getValorOperacao())
+				.sum();
 	}
 	
 	public double getSaldo() {

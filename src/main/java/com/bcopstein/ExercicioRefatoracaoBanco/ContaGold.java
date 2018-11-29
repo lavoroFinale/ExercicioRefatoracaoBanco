@@ -2,9 +2,8 @@ package com.bcopstein.ExercicioRefatoracaoBanco;
 
 public class ContaGold implements StateConta{
 
-	public ContaGold() {
-		
-	}
+	private final double limite = 100000.0;
+	
 	@Override
 	public double credito(double valor, double saldo) {
 		if (valor < 0.0)
@@ -21,11 +20,15 @@ public class ContaGold implements StateConta{
 			return new ContaGold();
 	}
 	
-	public int status() {
-		return 1;
+	public StateConta status() {
+		return this;
 	}
 	
-	public String strStatus() {
+	public double getLimite() {
+		return limite; 
+	}
+	
+	public String toString() {
 		return "Gold";
 	}
 }

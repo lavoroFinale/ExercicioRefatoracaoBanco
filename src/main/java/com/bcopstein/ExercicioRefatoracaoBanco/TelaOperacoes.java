@@ -31,11 +31,11 @@ public class TelaOperacoes {
 	
 	private LogicaOperacoes logica;
 	
-	private ListView<Operacao> extrato;
+	private ListView<String> extrato;
 
 	
 
-	public TelaOperacoes(Stage mainStage, Scene telaEntrada) { // Tirar esse parâmetro																					// conta
+	public TelaOperacoes(Stage mainStage, Scene telaEntrada) {																			
 		this.mainStage = mainStage;
 		this.cenaEntrada = telaEntrada;
 		this.logica = logica.getInstance();
@@ -116,9 +116,10 @@ public class TelaOperacoes {
 				alert.setTitle("Valor inválido !!");
 				alert.setHeaderText(null);
 				alert.setContentText("Valor inválido para operacao de crédito!!");
-
+				
 				alert.showAndWait();
-        	}        	
+        	}
+        	    
         });
         
         btnDebito.setOnAction(e->{
@@ -129,8 +130,6 @@ public class TelaOperacoes {
               extrato.setItems(FXCollections.observableArrayList(logica.getOperacoes()));
               
         	  tfSaldo.setText(""+ conta.getSaldo());
-          	  tfSaldo.setText(""+ conta.getSaldo());
-          	  
           	  cat.setText("Categoria: " + conta.getStrStatus());
           	  lim.setText("Limite retirada diaria: "+conta.getLimRetiradaDiaria());
           	  
@@ -138,7 +137,7 @@ public class TelaOperacoes {
   				Alert alert = new Alert(AlertType.WARNING);
   				alert.setTitle("Valor inválido !!");
   				alert.setHeaderText(null);
-  				alert.setContentText("Valor inválido para operacao de débito!");
+  				alert.setContentText(ex.getMessage());
 
   				alert.showAndWait();
           	}        	

@@ -39,13 +39,13 @@ public class Persistencia {
            int numero;
            String nomeCorr;
            double saldo;
-           int status;
+           String status;
            while (sc.hasNext()){ 
                numero = Integer.parseInt(sc.next()); 
                nomeCorr = sc.next();
                saldo = Double.parseDouble(sc.next());
-               status = Integer.parseInt(sc.next());
-               Conta conta = new Conta(numero,nomeCorr,saldo,status);
+               status = sc.next();
+               Conta conta = new Conta(numero,nomeCorr,saldo,FactoryState.createInstance(status));
                contas.put(numero, conta);
            }
         }catch (IOException x){ 
@@ -60,10 +60,13 @@ public class Persistencia {
         try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(path1, Charset.defaultCharset()))) 
         { 
             for(Conta c: contas) 
+           
                 writer.format(Locale.ENGLISH,
-                		      "%d;%s;%f;%d;",
+                		      "%d;%s;%f;%s;",
                 		      c.getNumero(),c.getCorrentista(), 
-                              c.getSaldo(),c.getStatus()); 
+                              c.getSaldo(),c.getStatus().toString()); 
+               
+            
         } 
         catch (IOException x) 
         { 
@@ -77,11 +80,11 @@ public class Persistencia {
         { 
             for(Operacao op:operacoes) 
                 writer.format(Locale.ENGLISH,
-                		      "%d;%d;%d;%d;%d;%d;%d;%d;%f;%d;",  
+                		      "%d;%d;%d;%d;%d;%d;%d;%s;%f;%s;",  
                               op.getDia(),op.getMes(),op.getAno(),
                               op.getHora(),op.getMinuto(),op.getSegundo(),
-                              op.getNumeroConta(),op.getStatusConta(),
-                              op.getValorOperacao(),op.getTipoOperacao()
+                              op.getNumeroConta(),op.getStatusConta().toString(),
+                              op.getValorOperacao(),op.getIntTipo()
                              ); 
         } 
         catch (IOException x) 
@@ -101,7 +104,8 @@ public class Persistencia {
            sc.useDelimiter("[;\n]"); // separadores: ; e nova linha 
            int dia,mes,ano;
            int hora,minuto,segundo;
-           int numero,status,tipo;
+           int numero,tipo;
+           String status;
            double valor;
        
            while (sc.hasNext()){ 
@@ -112,14 +116,14 @@ public class Persistencia {
                minuto = Integer.parseInt(sc.next()); 
                segundo = Integer.parseInt(sc.next()); 
                numero = Integer.parseInt(sc.next()); 
-               status = Integer.parseInt(sc.next()); 
+               status = sc.next(); 
                valor = Double.parseDouble(sc.next());
                tipo = Integer.parseInt(sc.next());
                
                Operacao op =  FactoryOperacoes.getInstance(
             		   dia, mes, ano,
             		   hora, minuto, segundo,
-	                   numero, status,
+	                   numero, FactoryState.createInstance(status),
 	                   valor, tipo);
                
                operacoes.add(op);

@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 
 
 public class App extends Application {
+	
 	private static LogicaOperacoes logica;
 	
 	private TelaEntrada telaEntrada;
@@ -38,13 +39,13 @@ public class App extends Application {
     
     @Override
     public void stop() {
-        logica.saveContas();
+    	logica.saveContas();
         logica.saveOperacoes();
     }
     
     public static void main(String[] args) {
-        launch(args);
-        logica = LogicaOperacoes.getInstance();
+    	logica = LogicaOperacoes.getInstance();
+        launch(args);    
     }
 }
 

@@ -15,11 +15,13 @@ public interface Operacao {
 
 	public int getNumeroConta();
 
-	public int getStatusConta();
+	public StateConta getStatusConta();
 
 	public double getValorOperacao();
 
-	public int getTipoOperacao();
+	public Operacao getTipoOperacao();
 	@Override
 	public String toString();
+
+	public int getIntTipo();
 }

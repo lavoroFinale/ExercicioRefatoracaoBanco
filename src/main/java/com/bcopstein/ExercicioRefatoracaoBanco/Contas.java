@@ -1,7 +1,6 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
 
-import java.util.Map;
-
+import java.util.*;
 
 public class Contas {
 	
@@ -29,4 +28,7 @@ public class Contas {
 		return contas.get(nrm);
 	}
 	
+	public Collection<Conta> getListContas(){
+		return contas.values();	
+	}	
 }

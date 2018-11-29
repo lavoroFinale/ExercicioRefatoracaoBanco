@@ -5,23 +5,26 @@ public class Conta {
 	public final int LIM_PLATINUM_GOLD = 100000;
 	public final int LIM_GOLD_SILVER = 25000;
 
-	private int numero;
 	private String correntista;
+	private int numero;
 	private double saldo;
 	private StateConta state;
+	
+	//@ invariant getSaldo() >= 0;
 
 	public Conta(int umNumero, String umNome) {
 		numero = umNumero;
 		correntista = umNome;
 		saldo = 0.0;
-		setState(new ContaSilver());
+		this.setState(new ContaSilver());
 	}
 	
-	public Conta(int umNumero, String umNome, double umSaldo, int status) {
+	public Conta(int umNumero, String umNome, double umSaldo, StateConta status) {
 		numero = umNumero;
 		correntista = umNome;
 		saldo = umSaldo;
-		setState(FactoryState.createInstance(status));
+		this.setState(status);
+		this.update();
 	}
 	
 	private void setState(final StateConta state){
@@ -40,30 +43,21 @@ public class Conta {
 		return correntista;
 	}
 	
-	public int getStatus() {
+	public StateConta getStatus() {
 		return state.status();
 	}
 	
-	public String getStrStatus() {
-		return state.strStatus();
-	}
-	
 	public double getLimRetiradaDiaria() {
-		switch(state.status()) {
-		case 0:  return 5000.0;
-		case 1:  return 50000.0;
-		case 2:  return 500000.0;
-		default: return 0.0;
-		}
+		return state.getLimite();
 	}
 	
 	public void deposito(double valor) {
 		saldo = state.credito(valor, saldo);
 		update();
 	}
-	
+
 	public void debito(double valor) {
-		if (valor < 0.0)
+		if (valor <= 0.0 || valor > saldo)
 	  		  throw new NumberFormatException("Valor invalido");
 		saldo -= valor;
 		update();
@@ -73,11 +67,13 @@ public class Conta {
 		setState(state.upgrade(saldo));
 	}
 
-	
-
 	@Override
 	public String toString() {
 		return "Conta [numero=" + numero + ", correntista=" + correntista + ", saldo=" + saldo + ", status=" + state.status()
 				+ "]";
+	}
+
+	public String getStrStatus() {
+		return state.toString();
 	}
 }

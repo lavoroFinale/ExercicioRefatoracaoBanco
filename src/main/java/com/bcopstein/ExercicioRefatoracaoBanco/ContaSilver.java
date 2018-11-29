@@ -2,6 +2,8 @@ package com.bcopstein.ExercicioRefatoracaoBanco;
 
 public class ContaSilver implements StateConta {
 	
+	private final double limite = 10000;
+	
 	public ContaSilver() {	
 	}
 
@@ -19,11 +21,15 @@ public class ContaSilver implements StateConta {
 			return new ContaSilver();
 	}
 	
-	public int status() {
-		return 0;
+	public StateConta status() {
+		return this;
 	}
 	
-	public String strStatus() {
+	public double getLimite() {
+		return limite; 
+	}
+	
+	public String toString() {
 		return "Silver";
 	}
 }
